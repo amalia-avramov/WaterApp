@@ -8,6 +8,7 @@ import Start from "./src/screens/Start";
 import {NavigationContainer} from "@react-navigation/native";
 import {Provider} from "react-native-paper";
 import {theme} from "./src/components/theme";
+import Register2 from "./src/screens/Register2";
 
 
 
@@ -26,6 +27,7 @@ export default function App() {
                     <Stack.Screen name="Start" component={Start} />
                     <Stack.Screen name="Login" component={Login} />
                     <Stack.Screen name="Register" component={Register} />
+                    <Stack.Screen name="Register2" component={Register2} />
                     <Stack.Screen name="Home" component={Home} />
                 </Stack.Navigator>
             </NavigationContainer>
