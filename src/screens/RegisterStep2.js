@@ -1,14 +1,16 @@
 import BackButton from "../components/BackButton";
-import React from "@types/react";
 import Background from "../components/Background";
 import TextInput from "../components/TextInput";
-import {useState} from "react";
-import DatePicker from "react-native-date-picker";
+import React, {useState} from "react";
+import {Button} from "react-native";
+import DatePicker from "react-native-modern-datepicker";
 
-function Register2({navigation}) {
+function RegisterStep2({navigation}) {
     const [firstName, setFirstName] = useState({value: '', error: ''});
     const [lastName, setLastName] = useState({value: '', error: ''});
     const [weight, setWeight] = useState({value: 0, error: ''});
+    const [selectedDate, setSelectedDate] = useState('');
+    const [open, setOpen] = useState(false)
 
     return (
         <Background>
@@ -41,8 +43,22 @@ function Register2({navigation}) {
                 autoCapitalize
                 keyboardType="number-pad"
             />
-            <DatePicker date={new Date(2022,12,22)}/>
+            <TextInput
+                label={'Date of birth'}
+                value={selectedDate}
+            />
+            <Button title="Select your birth date" onPress={() => setOpen(true)} />
+            {open && <DatePicker
+                mode={'calendar'}
+                onSelectedChange={(date) => {
+                    setOpen(false)
+                    setSelectedDate(date)
+                }}
+                onCancel={() => {
+                    setOpen(false)
+                }}
+            />}
         </Background>);
 }
 
-export default Register2;
+export default RegisterStep2;

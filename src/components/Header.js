@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     color: theme.colors.primary,
     fontWeight: 'bold',
-    paddingVertical: 12,
+    paddingVertical: 8,
     paddingHorizontal: 24,
     textAlign: 'center',
   },

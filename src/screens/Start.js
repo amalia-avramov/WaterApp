@@ -20,7 +20,7 @@ export default function Start({navigation}) {
                 </Button>
                 <Button
                     mode="outlined"
-                    onPress={() => navigation.navigate('Register')}
+                    onPress={() => navigation.navigate('Register', {screen: 'RegisterStep1', initial: false})}
                 >
                     Sign Up
                 </Button>

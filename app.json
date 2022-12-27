@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "WaterApp",
-    "slug": "WaterApp",
+    "slug": "waterapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,16 +18,24 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.amalia.avramov.waterapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.amalia.avramov.waterapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d2a9de86-3ba4-4169-8714-366cd198b660"
+      }
+    },
+    "owner": "amalia.avramov"
   }
 }
