@@ -74,7 +74,7 @@ function Login({navigation}) {
             />
             <View style={styles.forgotPassword}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('ResetPasswordScreen')}
+                    onPress={() => navigation.navigate('ForgotPassword')}
                 >
                     <Text style={styles.forgot}>Forgot your password?</Text>
                 </TouchableOpacity>

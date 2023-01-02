@@ -11,7 +11,7 @@ export default function Start({navigation}) {
             style={styles.background}
         >
             <View style={styles.container}>
-                <Header>WaterApp</Header>
+                <Header>Drink more with WaterApp</Header>
                 <Button
                     mode="contained"
                     onPress={() => navigation.navigate('Login')}

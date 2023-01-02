@@ -34,7 +34,7 @@ function RegisterStep2({navigation}) {
                 autoCapitalize
             />
             <TextInput
-                label="Weight"
+                label="Weight (Kg)"
                 returnKeyType="next"
                 value={weight.value}
                 onChangeText={(text) => setWeight({value: text, error: ''})}
