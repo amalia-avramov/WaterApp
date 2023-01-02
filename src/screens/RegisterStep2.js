@@ -72,7 +72,7 @@ function RegisterStep2({navigation, route}) {
                           style={{marginLeft: 20}}/>
             </View>
             <TextInput
-                label="Weight"
+                label="Weight (Kg)"
                 returnKeyType="next"
                 value={weight.value}
                 onChangeText={(text) => setWeight({value: text, error: ''})}
