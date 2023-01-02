@@ -9,6 +9,7 @@ import {theme} from '../components/theme'
 import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
 import app from "../config/firebase";
 import {AntDesign} from "@expo/vector-icons";
+import Paragraph from "../components/Paragraph";
 
 const auth = getAuth(app);
 
@@ -47,7 +48,7 @@ function RegisterStep1({navigation}) {
         }
         try {
             await createUserWithEmailAndPassword(auth, email.value, password.value);
-            navigation.navigate('Home');
+            navigation.navigate('Register', {screen: 'RegisterStep2', params: {email: email.value}})
         } catch (error) {
             console.error(error)
         }
@@ -89,13 +90,14 @@ function RegisterStep1({navigation}) {
                 secureTextEntry
             />
             <View style={styles.row}>
-                <Text style={{marginTop: 80}}>Already have an account? </Text>
+                <Paragraph>Already have an account?</Paragraph>
                 <TouchableOpacity onPress={() => navigation.replace('Login')}>
                     <Text style={styles.link}>Login</Text>
                 </TouchableOpacity>
             </View>
             <AntDesign name="arrowright" size={24} color="black" style={styles.arrow}
-                       onPress={() => navigation.navigate('Register', {screen: 'RegisterStep2'})}/>
+                       onPress={onSignUpPressed}
+            />
         </Background>
     )
 }
@@ -105,10 +107,13 @@ export default RegisterStep1;
 const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
-        marginTop: 4,
+        marginTop: 80,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     link: {
-        marginTop: 80,
+        marginTop: -4,
+        marginLeft: 8,
         fontWeight: 'bold',
         color: theme.colors.primary,
     },
