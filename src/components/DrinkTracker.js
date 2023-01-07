@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ProgressBarAndroid, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 
 const DrinkTracker = () => {
     const [mlConsumed, setMlConsumed] = useState(0);
@@ -12,17 +12,16 @@ const DrinkTracker = () => {
         <View style={styles.container}>
             <Text style={styles.text}>Milliliters consumed: {mlConsumed}</Text>
             <View style={styles.progressBar}>
-                <Image source={require('../../assets/droplet-empty.png')} style={styles.track} />
-                <Image
-                    source={require('../../assets/droplet-full.png')}
-                    style={[styles.fill, { width: `${mlConsumed / 2000 * 100}%` }]}
-                />
+                <View style={[styles.fill, { width: `${mlConsumed / 2000 * 100}%` }]} />
             </View>
             <TextInput
                 style={styles.input}
                 placeholder="Enter milliliters consumed"
-                onChangeText={updateMlConsumed}
                 keyboardType="numeric"
+            />
+            <Button
+                title="Submit"
+                onPress={updateMlConsumed}
             />
         </View>
     );
@@ -40,26 +39,24 @@ const styles = StyleSheet.create({
     },
     progressBar: {
         width: '80%',
-        height: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    track: {
-        width: '100%',
-        height: '100%',
+        height: 40,
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: '#ddd',
+        overflow: 'hidden',
     },
     fill: {
         height: '100%',
         backgroundColor: 'blue',
     },
     input: {
-        width: '80%',
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginTop: 20,
-        padding: 10,
-    },
-});
+            width: '80%',
+            height: 40,
+            borderColor: 'gray',
+            borderWidth: 1,
+            marginTop: 20,
+            padding: 10,
+        },
+    });
 
 export default DrinkTracker;
