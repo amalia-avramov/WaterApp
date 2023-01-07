@@ -8,6 +8,7 @@ import Start from "./src/screens/Start";
 import {NavigationContainer} from "@react-navigation/native";
 import {Provider} from "react-native-paper";
 import {theme} from "./src/components/theme";
+import ForgotPassword from "./src/screens/ForgotPassword";
 
 
 const Stack = createStackNavigator();
@@ -26,6 +27,8 @@ export default function App() {
                     <Stack.Screen name="Login" component={Login}/>
                     <Stack.Screen name="Register" component={Register}/>
                     <Stack.Screen name="Home" component={Home}/>
+                    <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
+
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
-import { auth } from 'react-native-firebase';
+import { View, Text, Button } from 'react-native';
+import app from "../config/firebase";
+import {getAuth} from "firebase/auth";
+import Background from "../components/Background";
+import Paragraph from "../components/Paragraph";
+import TextInput from "../components/TextInput";
+
+const auth= getAuth(app);
 function ForgotPasswordScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -26,7 +32,7 @@ function ForgotPasswordScreen({ navigation }) {
 
         try {
             // Send request to Firebase to reset password with the email provided
-            await auth().sendPasswordResetEmail(email);
+            await auth.sendPasswordResetEmail(email);
 
             // If successful, navigate to Home screen
             navigation.navigate('Home');
@@ -37,8 +43,8 @@ function ForgotPasswordScreen({ navigation }) {
     };
 
     return (
-        <View>
-            <Text>Forgot Password</Text>
+        <Background>
+            <Paragraph>Forgot Password</Paragraph>
             <TextInput
                 placeholder="Email"
                 value={email}
@@ -57,7 +63,7 @@ function ForgotPasswordScreen({ navigation }) {
                 secureTextEntry={true}
             />
             <Button title="Reset Password" onPress={handleResetPassword} />
-        </View>
+        </Background>
     );
 }
 
