@@ -35,7 +35,7 @@ function ForgotPasswordScreen({ navigation }) {
             await auth.sendPasswordResetEmail(email);
 
             // If successful, navigate to Home screen
-            navigation.navigate('Home');
+            navigation.navigate('Login');
         } catch (error) {
             // If unsuccessful, display an error message
             alert(error.message);
