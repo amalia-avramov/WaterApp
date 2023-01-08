@@ -38,12 +38,11 @@ function Login({navigation}) {
             setPassword({...password, error: passwordError})
             return
         }
-
         try {
             await signInWithEmailAndPassword(auth, email.value, password.value);
-            navigation.replace('Home');
+            navigation.navigate('Home', {name: email.value});
         } catch (error) {
-            console.log(error);
+            setEmail(email.error)
         }
     }
 
@@ -79,6 +78,9 @@ function Login({navigation}) {
                     <Text style={styles.forgot}>Forgot your password?</Text>
                 </TouchableOpacity>
             </View>
+            <Text style={{color: 'red'}}>
+                {email.error}
+                </Text>
             <Button mode="contained" onPress={onLoginPressed}>
                 Login
             </Button>
