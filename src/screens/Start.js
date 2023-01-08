@@ -4,6 +4,7 @@ import Button from '../components/Button'
 import {ImageBackground, StyleSheet, View} from "react-native";
 import {theme} from "../components/theme";
 
+
 export default function Start({navigation}) {
     return (
         <ImageBackground

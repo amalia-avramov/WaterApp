@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import TextInput from "./TextInput";
 
 const DrinkTracker = () => {
     const [mlConsumed, setMlConsumed] = useState(0);
@@ -14,13 +15,12 @@ const DrinkTracker = () => {
         <View style={styles.container}>
             <Text style={styles.text}>Milliliters consumed: {mlConsumed}</Text>
             <View style={styles.progressBarContainer}>
+                <View style={styles.empty} />
                 <View style={[styles.fill, { height: `${mlConsumed / 2000 * 100}%` }]}>
                     <Text style={styles.progressText}>{mlConsumed}</Text>
                 </View>
-                <View style={styles.empty} />
             </View>
             <TextInput
-                style={styles.input}
                 placeholder="Enter milliliters consumed"
                 value={inputValue}
                 onChangeText={setInputValue}
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     fill: {
-        height: '100%',
         backgroundColor: 'blue',
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     empty: {
-        height: '100%',
         backgroundColor: '#ddd',
         borderBottomLeftRadius: 50,
         borderBottomRightRadius: 50,
@@ -77,14 +75,6 @@ const styles = StyleSheet.create({
     },
     progressText: {
         color: 'white',
-    },
-    input: {
-        width: '80%',
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginTop: 20,
-        padding: 10,
     },
 });
 
