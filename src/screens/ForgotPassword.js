@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { Button } from 'react-native';
 import app from "../config/firebase";
 import {getAuth} from "firebase/auth";
 import Background from "../components/Background";
 import Paragraph from "../components/Paragraph";
 import TextInput from "../components/TextInput";
+import BackButton from "../components/BackButton";
 
 const auth= getAuth(app);
 function ForgotPasswordScreen({ navigation }) {
@@ -44,6 +45,7 @@ function ForgotPasswordScreen({ navigation }) {
 
     return (
         <Background>
+            <BackButton goBack={navigation.goBack}/>
             <Paragraph>Forgot Password</Paragraph>
             <TextInput
                 placeholder="Email"

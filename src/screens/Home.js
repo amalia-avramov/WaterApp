@@ -6,6 +6,7 @@ import DrinkTracker from "../components/DrinkTracker";
 
 export default function Home({navigation, route}) {
     const {name} = route.params;
+
     return (
         <Background>
             <Header>Let’s start {name}</Header>
