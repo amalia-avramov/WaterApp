@@ -41,7 +41,7 @@ function RegisterStep3({navigation, route}) {
 
         recommendedIntake = recommendedIntake / 10;
 
-        setRecommendedIntake(Math.round(recommendedIntake * 10) / 10);
+        setRecommendedIntake(Math.round(recommendedIntake * 10) / 20);
     };
 
     async function updateUserData() {
