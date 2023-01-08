@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, {useState} from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import TextInput from "./TextInput";
+import {getDoc} from 'firebase/firestore'
 
 const DrinkTracker = () => {
     const [mlConsumed, setMlConsumed] = useState(0);
     const [inputValue, setInputValue] = useState('');
+    const [time, setTime] = useState([]);
 
-    const updateMlConsumed = () => {
+
+    const updateMlConsumed = async () => {
         setMlConsumed(mlConsumed + Number(inputValue));
         setInputValue('');
+        let hours = new Date().getHours(); //Current Hours
+        let min = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()//Current Minutes
+
+        const newTime =
+            hours + ':' + min
+        time.push(newTime)
     }
+
 
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Milliliters consumed: {mlConsumed}</Text>
             <View style={styles.progressBarContainer}>
-                <View style={styles.empty} />
-                <View style={[styles.fill, { height: `${mlConsumed / 2000 * 100}%` }]}>
+                <View style={styles.empty}/>
+                <View style={[styles.fill, {height: `${mlConsumed / 2000 * 100}%`}]}>
                     <Text style={styles.progressText}>{mlConsumed}</Text>
                 </View>
             </View>
@@ -30,6 +40,11 @@ const DrinkTracker = () => {
                 title="Submit"
                 onPress={updateMlConsumed}
             />
+            <View>
+                {time.map((item) => (
+                    <Text style={styles.text}>{item}</Text>
+                ))}
+            </View>
         </View>
     );
 }

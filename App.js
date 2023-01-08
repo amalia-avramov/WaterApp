@@ -9,32 +9,42 @@ import {NavigationContainer} from "@react-navigation/native";
 import {Provider} from "react-native-paper";
 import {theme} from "./src/components/theme";
 import ForgotPassword from "./src/screens/ForgotPassword";
-import {getAuth} from "firebase/auth";
-
+import {useAuth} from "./src/config/useAuth";
 
 
 const Stack = createStackNavigator();
 
 export default function App() {
-    const auth = getAuth();
-    const user=auth.currentUser;
+    const {user} = useAuth();
     console.log(user)
     return (
         <Provider theme={theme}>
-            <NavigationContainer>
-                <Stack.Navigator
-                    initialRouteName={user!==null ?"Home":"Start"}
-                    screenOptions={{
-                        headerShown: false,
-                    }}
-                >
-                    <Stack.Screen name="Start" component={Start}/>
-                    <Stack.Screen name="Login" component={Login}/>
-                    <Stack.Screen name="Register" component={Register}/>
-                    <Stack.Screen name="Home" component={Home}/>
-                    <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
-                </Stack.Navigator>
-            </NavigationContainer>
+            {user ?
+                (<NavigationContainer>
+                    <Stack.Navigator
+                        initialRouteName='Home'
+                        screenOptions={{
+                            headerShown: false,
+                        }}
+                    >
+                        <Stack.Screen name={'Home'} component={Home}/>
+                    </Stack.Navigator>
+                </NavigationContainer>)
+                : (<NavigationContainer>
+                    <Stack.Navigator
+                        initialRouteName='Start'
+                        screenOptions={{
+                            headerShown: false,
+                        }}
+                    >
+                        <Stack.Screen name="Start" component={Start}/>
+                        <Stack.Screen name="Login" component={Login}/>
+                        <Stack.Screen name="Register" component={Register}/>
+                        <Stack.Screen name="Home" component={Home}/>
+                        <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
+                    </Stack.Navigator>
+                </NavigationContainer>)}
         </Provider>
     )
 }
+

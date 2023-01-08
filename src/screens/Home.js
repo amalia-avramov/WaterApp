@@ -3,13 +3,16 @@ import Background from '../components/Background'
 import Header from '../components/Header'
 import Button from '../components/Button'
 import DrinkTracker from "../components/DrinkTracker";
+import {useAuth} from "../config/useAuth";
+import firebase from "firebase/compat";
+
 
 export default function Home({navigation, route}) {
-    const {name} = route.params;
+    const {user} = useAuth();
 
     return (
         <Background>
-            <Header>Let’s start {name}</Header>
+            <Header>Let’s start </Header>
             <DrinkTracker/>
             <Button
                 mode="outlined"

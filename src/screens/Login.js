@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View,} from "react-native";
-//import Icon from 'react-native-vector-icons/FontAwesome';
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import Background from "../components/Background";
 import BackButton from "../components/BackButton";
@@ -40,7 +39,7 @@ function Login({navigation}) {
         }
         try {
             await signInWithEmailAndPassword(auth, email.value, password.value);
-            navigation.navigate('Home', {name: email.value});
+            navigation.navigate('Home');
         } catch (error) {
             setEmail(email.error)
         }
