@@ -11,7 +11,7 @@ import {AntDesign, Fontisto} from "@expo/vector-icons";
 const db = getFirestore(app);
 
 function RegisterStep2({navigation, route}) {
-    const {email} = route.params;
+    const {email, password} = route.params;
     const [firstName, setFirstName] = useState({value: '', error: ''});
     const [lastName, setLastName] = useState({value: '', error: ''});
     const [gender, setGender] = useState('');
@@ -32,12 +32,12 @@ function RegisterStep2({navigation, route}) {
             navigation.navigate('Register', {
                 screen: 'RegisterStep3', params: {
                     email: email,
+                    password:password,
                     dateOfBirth: selectedDate,
                     weight: weight.value,
                     docRef: newDoc
                 }
             })
-
         } catch(err) {
             console.error("writeToDB failed. reason :", err)
         }

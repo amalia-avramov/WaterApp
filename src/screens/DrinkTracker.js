@@ -74,7 +74,7 @@ const DrinkTracker = () => {
                     keyboardType="numeric"
                 />
                 <Button
-                    mode="contained"
+                    mode="outlined"
                     onPress={updateMlConsumed}
                 >Submit</Button>
                 {(currentUser.mlConsumed >= currentUser.drinkingWater * 1000) &&
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         transform: [{rotate: "180deg"}]
     },
     fill: {
-        backgroundColor: '#5094ee',
+        backgroundColor: '#6baafd',
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         position: 'absolute',

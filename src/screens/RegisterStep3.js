@@ -9,12 +9,14 @@ import {BaseButton} from "react-native-gesture-handler";
 import {getFirestore, updateDoc} from "firebase/firestore";
 import app from "../config/firebase";
 import moment from "moment";
+import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
 
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 function RegisterStep3({navigation, route}) {
 
-    const {dateOfBirth, weight, email, docRef} = route.params;
+    const {dateOfBirth, weight, email, password,docRef} = route.params;
     const [drinkingWater, setDrinkingWater] = useState(0);
     const [moreOrLess, setMoreOrLess] = useState('')
     const [recommendedIntake, setRecommendedIntake] = useState(0);
@@ -45,13 +47,14 @@ function RegisterStep3({navigation, route}) {
     };
 
     async function updateUserData() {
+        await createUserWithEmailAndPassword(auth, email, password);
         await updateDoc(docRef, {
             "age": age,
             "drinkingWater": drinkingWater,
             "moreOrLess": moreOrLess,
             "mlConsumed": 0,
         })
-        navigation.navigate('Home', {screen: 'Historical'})
+        navigation.navigate('Home', {screen: 'DrinkTracker'})
 
     }
 
@@ -69,15 +72,15 @@ function RegisterStep3({navigation, route}) {
                 onChangeText={(text) => setDrinkingWater(text)}
                 keyboardType="number-pad"
             />
-            <Paragraph>Do you want to drink more or less water?</Paragraph>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+           {/* <Paragraph>Do you want to drink more or less water?</Paragraph>*/}
+           {/* <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                 <BaseButton onPress={() => setMoreOrLess('less')}>
                     <Image source={require('../../assets/less.jpg')} style={styles.image}/>
                 </BaseButton>
                 <BaseButton onPress={() => setMoreOrLess('more')}>
                     <Image source={require('../../assets/greater.jpg')} style={styles.image}/>
                 </BaseButton>
-            </View>
+            </View>*/}
             <Button
                 title={''}
                 mode="contained"

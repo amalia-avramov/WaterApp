@@ -11,7 +11,6 @@ import app from "../config/firebase";
 import {AntDesign} from "@expo/vector-icons";
 import Paragraph from "../components/Paragraph";
 
-const auth = getAuth(app);
 
 function RegisterStep1({navigation}) {
     const [email, setEmail] = useState({value: '', error: ''})
@@ -47,8 +46,7 @@ function RegisterStep1({navigation}) {
             return
         }
         try {
-            await createUserWithEmailAndPassword(auth, email.value, password.value);
-            navigation.navigate('Register', {screen: 'RegisterStep2', params: {email: email.value}})
+            navigation.navigate('Register', {screen: 'RegisterStep2', params: {email: email.value, password: password.value}})
         } catch (error) {
             console.error(error)
         }
