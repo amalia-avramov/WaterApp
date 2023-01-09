@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import TextInput from "../components/TextInput";
-import {collection, doc, getDocs, getFirestore, updateDoc} from 'firebase/firestore'
+import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc} from 'firebase/firestore'
 import app from "../config/firebase";
 import {useAuth} from "../config/useAuth";
 import Background from "../components/Background";
 import Button from "../components/Button";
 import Paragraph from "../components/Paragraph";
-import {FontAwesome5} from "@expo/vector-icons";
 
 const db = getFirestore(app);
 
@@ -15,7 +14,6 @@ const DrinkTracker = () => {
     const {user} = useAuth();
     const [mlConsumed, setMlConsumed] = useState(0);
     const [inputValue, setInputValue] = useState('');
-    const [time, setTime] = useState([]);
     const [currentUser, setCurrentUser] = useState({})
 
     const fetchPost = async () => {
@@ -36,17 +34,25 @@ const DrinkTracker = () => {
     const updateMlConsumed = async () => {
         setMlConsumed(Number(inputValue));
         const docRef = doc(db, "users", currentUser.id);
-        await updateDoc(docRef, {
-            mlConsumed: currentUser.mlConsumed + Number(inputValue),
-        })
-        console.log(currentUser.mlConsumed)
+
         setInputValue('');
+        let date = new Date().getDate(); //To get the Current Date
+        let month = new Date().getMonth() + 1; //To get the Current Month
+        let year = new Date().getFullYear(); //To get the Current Year
         let hours = new Date().getHours(); //Current Hours
         let min = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()//Current Minutes
 
-        const newTime =
-            hours + ':' + min
-        time.push(newTime)
+        const newTime = hours + ':' + min
+        const newDate = (month < 10 ? "0" + month : month) + '/' + (date < 10 ? "0" + date : date) + '/' + year;
+
+        await updateDoc(docRef, {
+            mlConsumed: currentUser.mlConsumed + Number(inputValue),
+            drinkTracker: arrayUnion({
+                date: newDate,
+                time: newTime,
+                mlTracking: Number(inputValue)
+            })
+        })
     }
 
 
@@ -73,14 +79,7 @@ const DrinkTracker = () => {
                 >Submit</Button>
                 {(currentUser.mlConsumed >= currentUser.drinkingWater * 1000) &&
                     <Paragraph>Your goal was reached!</Paragraph>}
-                <View>
-                    {time.map((item, index) => (
-                        <View style={{display: 'flex', flexDirection: 'row'}} key={index}>
-                            <FontAwesome5 name="glass-whiskey" size={24} color="black"/>
-                            <Text style={styles.text}>{item}</Text>
-                        </View>
-                    ))}
-                </View>
+
             </View>
         </Background>
 
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
         transform: [{rotate: "180deg"}]
     },
     fill: {
-        backgroundColor: 'blue',
+        backgroundColor: '#5094ee',
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         position: 'absolute',
