@@ -39,7 +39,7 @@ function Login({navigation}) {
         }
         try {
             await signInWithEmailAndPassword(auth, email.value, password.value);
-            navigation.navigate('Home');
+            navigation.navigate('Home', {screen:'DrinkTracker'});
         } catch (error) {
             setEmail(email.error)
         }

@@ -1,35 +1,32 @@
 import React from 'react';
-import Background from '../components/Background'
-import Header from '../components/Header'
-import Button from '../components/Button'
-import DrinkTracker from "../components/DrinkTracker";
-import {useAuth} from "../config/useAuth";
-import {getAuth, signOut} from "firebase/auth";
-import {collection, getDocs, getFirestore} from "firebase/firestore";
-import app from "../config/firebase";
-
-const auth = getAuth();
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {FontAwesome, Ionicons, MaterialIcons} from "@expo/vector-icons";
+import DrinkTracker from "./DrinkTracker";
+import {Historical} from "./Historical";
 
 
-export default function Home({navigation, route}) {
+const Tab = createBottomTabNavigator();
 
-
-
-
+export default function Home() {
     return (
-        <Background>
-            <Header>Let’s start </Header>
-            <DrinkTracker/>
-            <Button
-                mode="outlined"
-                onPress={() => {
-                    signOut(auth).then(r => console.log(r));
-                    navigation.navigate('Start')
-                }}
-            >
-                Logout
-            </Button>
-        </Background>
+        <Tab.Navigator
+            screenOptions={({route}) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    if (route.name === 'DrinkTracker') {
+                        return <MaterialIcons name="local-drink" size={size} color={color} />
+                    } else if (route.name === 'Historical') {
+                        return <FontAwesome name="history" size={size} color={color} />
+                    }
+
+                },
+                tabBarActiveTintColor: 'blue',
+                tabBarInactiveTintColor: 'gray',
+            })}
+        >
+            <Tab.Screen name="DrinkTracker" component={DrinkTracker}/>
+            <Tab.Screen name="Historical" component={Historical}/>
+        </Tab.Navigator>
+
     );
 }
 
