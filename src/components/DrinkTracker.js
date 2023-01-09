@@ -1,15 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import TextInput from "./TextInput";
-import {getDoc} from 'firebase/firestore'
+import {collection, getDocs, getFirestore} from 'firebase/firestore'
+import app from "../config/firebase";
+import {useAuth} from "../config/useAuth";
+const db = getFirestore(app);
 
 const DrinkTracker = () => {
+    const {user} = useAuth();
     const [mlConsumed, setMlConsumed] = useState(0);
     const [inputValue, setInputValue] = useState('');
     const [time, setTime] = useState([]);
+    const [currentUser,setCurrentUser] = useState({})
 
+    const fetchPost = async () => {
+        await getDocs(collection(db, "users"))
+            .then((querySnapshot)=>{
+                const newData = querySnapshot.docs
+                    .map(doc=> doc.data());
+                const newCurrentUser= newData.find((u)=> user.email===u.email);
+                setCurrentUser(newCurrentUser);
+                console.log(newData);
+                console.log(currentUser)
+            })
 
+    }
+    
     const updateMlConsumed = async () => {
+        fetchPost();
         setMlConsumed(mlConsumed + Number(inputValue));
         setInputValue('');
         let hours = new Date().getHours(); //Current Hours
@@ -25,10 +43,10 @@ const DrinkTracker = () => {
         <View style={styles.container}>
             <Text style={styles.text}>Milliliters consumed: {mlConsumed}</Text>
             <View style={styles.progressBarContainer}>
-                <View style={styles.empty}/>
-                <View style={[styles.fill, {height: `${mlConsumed / 2000 * 100}%`}]}>
+                <View style={[styles.fill, {height: `${(mlConsumed / (currentUser.drinkingWater * 1000)) * 100}%`}]}>
                     <Text style={styles.progressText}>{mlConsumed}</Text>
                 </View>
+                <View style={styles.empty}/>
             </View>
             <TextInput
                 placeholder="Enter milliliters consumed"
@@ -41,8 +59,8 @@ const DrinkTracker = () => {
                 onPress={updateMlConsumed}
             />
             <View>
-                {time.map((item) => (
-                    <Text style={styles.text}>{item}</Text>
+                {time.map((item,index) => (
+                    <Text style={styles.text} key={index}>{item}</Text>
                 ))}
             </View>
         </View>

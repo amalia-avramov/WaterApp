@@ -4,11 +4,17 @@ import Header from '../components/Header'
 import Button from '../components/Button'
 import DrinkTracker from "../components/DrinkTracker";
 import {useAuth} from "../config/useAuth";
-import firebase from "firebase/compat";
+import {getAuth, signOut} from "firebase/auth";
+import {collection, getDocs, getFirestore} from "firebase/firestore";
+import app from "../config/firebase";
+
+const auth = getAuth();
 
 
 export default function Home({navigation, route}) {
-    const {user} = useAuth();
+
+
+
 
     return (
         <Background>
@@ -16,12 +22,10 @@ export default function Home({navigation, route}) {
             <DrinkTracker/>
             <Button
                 mode="outlined"
-                onPress={() =>
-                    navigation.reset({
-                        index: 0,
-                        routes: [{name: 'Start'}],
-                    })
-                }
+                onPress={() => {
+                    signOut(auth).then(r => console.log(r));
+                    navigation.navigate('Start')
+                }}
             >
                 Logout
             </Button>
