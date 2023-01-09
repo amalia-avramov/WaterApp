@@ -49,6 +49,7 @@ function RegisterStep3({navigation, route}) {
             "age": age,
             "drinkingWater": drinkingWater,
             "moreOrLess": moreOrLess,
+            "mlConsumed": 0,
         })
         navigation.navigate('Home', {screen: 'Historical'})
 

@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import TextInput from "../components/TextInput";
-import {collection, getDocs, getFirestore, doc, updateDoc} from 'firebase/firestore'
+import {collection, doc, getDocs, getFirestore, updateDoc} from 'firebase/firestore'
 import app from "../config/firebase";
 import {useAuth} from "../config/useAuth";
 import Background from "../components/Background";
 import Button from "../components/Button";
 import Paragraph from "../components/Paragraph";
+import {FontAwesome5} from "@expo/vector-icons";
 
 const db = getFirestore(app);
 
@@ -16,32 +17,30 @@ const DrinkTracker = () => {
     const [inputValue, setInputValue] = useState('');
     const [time, setTime] = useState([]);
     const [currentUser, setCurrentUser] = useState({})
-    const [data, setData] = useState({})
 
     const fetchPost = async () => {
         await getDocs(collection(db, "users"))
             .then((querySnapshot) => {
                 const newData = querySnapshot.docs
-                    .map((doc) => ({...doc.data(), id:doc.id }));
+                    .map((doc) => ({...doc.data(), id: doc.id}));
                 const newCurrentUser = newData.find((u) => u.email === user.email)
                 setCurrentUser(newCurrentUser);
-                console.log(currentUser)
             })
 
     }
 
     useEffect(() => {
         fetchPost().catch((error) => console.log(error))
-    }, [user, mlConsumed])
+    }, [user, mlConsumed, setMlConsumed])
 
     const updateMlConsumed = async () => {
-        setMlConsumed(mlConsumed + Number(inputValue));
+        setMlConsumed(Number(inputValue));
+        const docRef = doc(db, "users", currentUser.id);
+        await updateDoc(docRef, {
+            mlConsumed: currentUser.mlConsumed + Number(inputValue),
+        })
+        console.log(currentUser.mlConsumed)
         setInputValue('');
-        const docRef=doc(db, "users", currentUser.id);
-        setTimeout(async () => await updateDoc(docRef, {
-            mlConsumed: mlConsumed
-        }), 1000);
-
         let hours = new Date().getHours(); //Current Hours
         let min = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()//Current Minutes
 
@@ -54,11 +53,11 @@ const DrinkTracker = () => {
     return (
         <Background>
             <View style={styles.container}>
-                <Text style={styles.text}>Milliliters consumed: {mlConsumed}</Text>
+                <Text style={styles.text}>Milliliters consumed: {currentUser.mlConsumed}</Text>
                 <View style={styles.progressBarContainer}>
                     <View
-                        style={[styles.fill, {height: `${(mlConsumed / (currentUser.drinkingWater * 1000)) * 100}%`}]}>
-                        <Text style={styles.progressText}>{mlConsumed}</Text>
+                        style={[styles.fill, {height: `${(currentUser.mlConsumed / (currentUser.drinkingWater * 1000)) * 100}%`}]}>
+                        <Text style={styles.progressText}>{currentUser.mlConsumed}</Text>
                     </View>
                     <View style={styles.empty}/>
                 </View>
@@ -72,11 +71,14 @@ const DrinkTracker = () => {
                     mode="contained"
                     onPress={updateMlConsumed}
                 >Submit</Button>
-                {(mlConsumed > currentUser.drinkingWater * 1000) &&
+                {(currentUser.mlConsumed >= currentUser.drinkingWater * 1000) &&
                     <Paragraph>Your goal was reached!</Paragraph>}
                 <View>
                     {time.map((item, index) => (
-                        <Text style={styles.text} key={index}>{item}</Text>
+                        <View style={{display: 'flex', flexDirection: 'row'}} key={index}>
+                            <FontAwesome5 name="glass-whiskey" size={24} color="black"/>
+                            <Text style={styles.text}>{item}</Text>
+                        </View>
                     ))}
                 </View>
             </View>
