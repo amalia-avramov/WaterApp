@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import TextInput from "../components/TextInput";
 import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc} from 'firebase/firestore'
 import app from "../config/firebase";
@@ -55,7 +55,6 @@ const DrinkTracker = () => {
         })
     }
 
-
     return (
         <Background>
             <View style={styles.container}>
@@ -71,7 +70,7 @@ const DrinkTracker = () => {
                     placeholder="Enter milliliters consumed"
                     value={inputValue}
                     onChangeText={setInputValue}
-                    keyboardType="numeric"
+                    keyboardType="numbers-and-punctuation"
                 />
                 <Button
                     mode="outlined"
@@ -86,19 +85,21 @@ const DrinkTracker = () => {
     );
 }
 
+const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: '#ffffff',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
     text: {
         fontSize: 20,
-        marginBottom: 20,
+        marginBottom: 30,
     },
     progressBarContainer: {
-        width: 100,
-        height: 300,
+        width: 80,
+        height: windowHeight/4,
         borderRadius: 50,
         borderWidth: 2,
         borderColor: '#ddd',

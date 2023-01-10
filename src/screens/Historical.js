@@ -1,5 +1,4 @@
 import {FlatList, SafeAreaView, StyleSheet, Text, View} from "react-native";
-import Background from "../components/Background";
 import {useAuth} from "../config/useAuth";
 import {collection, getDocs, getFirestore} from "firebase/firestore";
 import React, {useEffect, useState} from "react";
@@ -24,18 +23,17 @@ export function Historical() {
 
                 })
         }
-        setTimeout(() => fetchPost().catch((error) => console.log(error)), 1000);
+        fetchPost().catch((error) => console.log(error));
     }, [user])
 
     return (
-        <Background>
-            <SafeAreaView style={styles.container}>
-                <FlatList
-                    data={currentUser.drinkTracker}
-                    renderItem={({item}) => <Item item={item}/>}
-                />
-            </SafeAreaView>
-        </Background>);
+        <SafeAreaView style={styles.container}>
+            <FlatList
+                data={currentUser.drinkTracker}
+                renderItem={({item}) => <Item item={item}/>}
+            />
+        </SafeAreaView>
+    );
 }
 
 function Item({item}) {
@@ -52,28 +50,26 @@ function Item({item}) {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20,
+        fontSize: 14,
         marginLeft: 8,
     },
     container: {
         flex: 1,
         backgroundColor: '#ffffff',
-        borderRadius: 10,
-        borderColor: '#70a6ee',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        marginTop: 10
     },
     listItem: {
         display: 'flex',
-        margin: 10,
+        margin: 5,
         padding: 10,
         backgroundColor: "#FFF",
-        width: "80%",
+        width: "95%",
         flex: 1,
         alignSelf: "center",
         flexDirection: "row",
         alignItems: 'center',
+        borderColor: '#70a6ee',
+        borderStyle: 'solid',
+        borderWidth: 1,
         borderRadius: 5
     }
 })

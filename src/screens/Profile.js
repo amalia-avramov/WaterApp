@@ -24,7 +24,7 @@ export function Profile({navigation}) {
 
                 })
         }
-        setTimeout(() => fetchPost().catch((error) => console.log(error)), 1000);
+        fetchPost().catch((error) => console.log(error));
     }, [user])
     console.log(currentUser.lastName)
     return (
@@ -35,7 +35,7 @@ export function Profile({navigation}) {
                     <AntDesign name="logout" size={32} color="black"
                                onPress={() => {
                                    signOut(auth).then(r => console.log(r));
-                                   navigation.navigate('Start')
+                                   setTimeout(() => {navigation.navigate('Start')},1000);
                                }}
 
                     />

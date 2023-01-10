@@ -13,6 +13,7 @@ export default function Start({navigation}) {
         >
             <View style={styles.container}>
                 <Header>Drink more with WaterApp</Header>
+                <View style={{margin:20}}/>
                 <Button
                     mode="contained"
                     onPress={() => navigation.navigate('Login')}
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         width: '100%',
+        height: '50%',
         backgroundColor: theme.colors.surface,
     },
     container: {

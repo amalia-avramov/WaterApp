@@ -18,7 +18,6 @@ function RegisterStep3({navigation, route}) {
 
     const {dateOfBirth, weight, email, password,docRef} = route.params;
     const [drinkingWater, setDrinkingWater] = useState(0);
-    const [moreOrLess, setMoreOrLess] = useState('')
     const [recommendedIntake, setRecommendedIntake] = useState(0);
 
     const age = moment().diff(dateOfBirth, 'years');
@@ -51,7 +50,6 @@ function RegisterStep3({navigation, route}) {
         await updateDoc(docRef, {
             "age": age,
             "drinkingWater": drinkingWater,
-            "moreOrLess": moreOrLess,
             "mlConsumed": 0,
         })
         navigation.navigate('Home', {screen: 'DrinkTracker'})
@@ -64,7 +62,7 @@ function RegisterStep3({navigation, route}) {
             <Paragraph>Your age: {age} years</Paragraph>
             <Paragraph>Your weight: {weight} kg</Paragraph>
             <Paragraph>Recommended Water Intake: {recommendedIntake} L</Paragraph>
-            <Paragraph>How much water do drink in a day?</Paragraph>
+            <Paragraph>How much water do you want to drink in a day?</Paragraph>
             <TextInput
                 label="Water that drink in a day"
                 returnKeyType="next"

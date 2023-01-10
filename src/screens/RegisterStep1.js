@@ -105,13 +105,10 @@ export default RegisterStep1;
 const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
-        marginTop: 80,
         alignItems: 'center',
         justifyContent: 'center',
     },
     link: {
-        marginTop: -4,
-        marginLeft: 8,
         fontWeight: 'bold',
         color: theme.colors.primary,
     },
