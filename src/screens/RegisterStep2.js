@@ -4,7 +4,7 @@ import TextInput from "../components/TextInput";
 import React, {useState} from "react";
 import {Button, StyleSheet, Text, View} from "react-native";
 import DatePicker from "react-native-modern-datepicker";
-import {getFirestore, addDoc, collection} from "firebase/firestore";
+import {addDoc, collection, getFirestore} from "firebase/firestore";
 import app from "../config/firebase"
 import {AntDesign, Fontisto} from "@expo/vector-icons";
 
@@ -20,7 +20,7 @@ function RegisterStep2({navigation, route}) {
     const [open, setOpen] = useState(false);
 
     async function writeToDataBase() {
-        try {
+       try {
             const newDoc = await addDoc(collection(db, 'users'), {
                 email: email,
                 firstName: firstName,
@@ -28,20 +28,21 @@ function RegisterStep2({navigation, route}) {
                 gender: gender,
                 weight: weight,
                 dateOfBirth: selectedDate,
-            } );
+            });
             navigation.navigate('Register', {
                 screen: 'RegisterStep3', params: {
                     email: email,
-                    password:password,
+                    password: password,
                     dateOfBirth: selectedDate,
                     weight: weight.value,
                     docRef: newDoc
                 }
             })
-        } catch(err) {
-            console.error("writeToDB failed. reason :", err)
-        }
-    };
+
+       } catch (err) {
+           console.error("writeToDB failed. reason :", err)
+       }
+    }
 
     return (
         <Background>
@@ -53,7 +54,6 @@ function RegisterStep2({navigation, route}) {
                 onChangeText={(text) => setFirstName({value: text, error: ''})}
                 error={!!firstName.error}
                 errorText={firstName.error}
-                autoCapitalize
             />
             <TextInput
                 label="Last Name"
@@ -62,7 +62,6 @@ function RegisterStep2({navigation, route}) {
                 onChangeText={(text) => setLastName({value: text, error: ''})}
                 error={!!lastName.error}
                 errorText={lastName.error}
-                autoCapitalize
             />
             <Text style={styles.text}>Gender</Text>
             <View style={styles.genderContainer}>
@@ -73,12 +72,11 @@ function RegisterStep2({navigation, route}) {
             </View>
             <TextInput
                 label="Weight (Kg)"
-                returnKeyType="next"
+                returnKeyType="done"
                 value={weight.value}
                 onChangeText={(text) => setWeight({value: text, error: ''})}
                 error={!!weight.error}
                 errorText={weight.error}
-                autoCapitalize
                 keyboardType="number-pad"
             />
             <TextInput
@@ -96,9 +94,9 @@ function RegisterStep2({navigation, route}) {
                     setOpen(false)
                 }}
             />}
-            <AntDesign name="arrowright" size={24} color="black" style={styles.arrow}
-                       onPress={writeToDataBase}
-            />
+            <View style={styles.arrow}>
+                <AntDesign name="arrowright" size={24} color="black"  onPress={writeToDataBase}/>
+            </View>
         </Background>);
 }
 
@@ -107,7 +105,7 @@ export default RegisterStep2;
 const styles = StyleSheet.create({
     arrow: {
         alignSelf: 'flex-end',
-        top: 20,
+        top: 40,
         left: 4,
     },
     text: {

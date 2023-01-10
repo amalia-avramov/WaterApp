@@ -103,7 +103,9 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
-        marginTop: 4,
+        alignItems: 'center',
+        justifyContent:'center',
+        marginTop: 50,
     },
     forgot: {
         fontSize: 13,
@@ -112,5 +114,6 @@ const styles = StyleSheet.create({
     link: {
         fontWeight: 'bold',
         color: theme.colors.primary,
+        marginLeft: 5,
     },
 })

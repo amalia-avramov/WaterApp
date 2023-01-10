@@ -2,122 +2,152 @@ import BackButton from "../components/BackButton";
 import TextInput from "../components/TextInput";
 import React, {useEffect, useState} from "react";
 import Background from "../components/Background";
-import Paragraph from "../components/Paragraph";
 import Button from "../components/Button";
-import {Image, StyleSheet, View} from "react-native";
-import {BaseButton} from "react-native-gesture-handler";
-import {addDoc, collection, getFirestore, updateDoc} from "firebase/firestore";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
+import {updateDoc} from "firebase/firestore";
 import app from "../config/firebase";
 import moment from "moment";
-import TimeInput from "@tighten/react-native-time-input";
 import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
+import DatePicker from "react-native-modern-datepicker";
+import {Text} from "react-native-paper";
+import {theme} from "../components/theme";
 
-const db = getFirestore(app);
 const auth = getAuth(app);
 
 function RegisterStep3({navigation, route}) {
 
-    const {dateOfBirth, weight, email, password,docRef} = route.params;
+    const {dateOfBirth, weight, email, password, docRef} = route.params;
     const [drinkingWater, setDrinkingWater] = useState(0);
     const [recommendedIntake, setRecommendedIntake] = useState(0);
-    const [wakingTime,setWakingTime] = useState("");
-    const [sleepingTime,setSleepingTime] = useState("");
+    const [wakingTime, setWakingTime] = useState("");
+    const [sleepingTime, setSleepingTime] = useState("");
+    const [openTimePicker1, setOpenTimePicker1] = useState(false)
+    const [openTimePicker2, setOpenTimePicker2] = useState(false)
+    const [changeWaterIntake, setChangeWaterIntake] = useState(false);
+    const [isNoPress, setIsNoPress] = useState(false)
 
     const age = moment().diff(dateOfBirth, 'years');
 
-    useEffect(()=>{
+    useEffect(() => {
         calculateRecommendedIntake()
     })
 
     const calculateRecommendedIntake = () => {
+        const weightInLbs = weight * 2.2046;
         // Calculate recommended water intake based on age and weight
-        let recommendedIntake = 0;
+        let recommendedIntake;
         if (age < 18) {
-            // Children: Recommended intake = weight (in kg) x 0.7
-            recommendedIntake = weight * 0.7;
+            // Children: Recommended intake = weight (in lbs) x 0.7
+            recommendedIntake = weightInLbs * 0.7;
         } else if (age < 65) {
-            // Adults: Recommended intake = weight (in kg) x 0.6
-            recommendedIntake = weight * 0.6;
+            // Adults: Recommended intake = weight (in lbs) x 0.6
+            recommendedIntake = weightInLbs * 0.6;
         } else {
-            // Seniors: Recommended intake = weight (in kg) x 0.5
-            recommendedIntake = weight * 0.5;
+            // Seniors: Recommended intake = weight (in lbs) x 0.5
+            recommendedIntake = weightInLbs * 0.5;
         }
 
-        recommendedIntake = recommendedIntake / 10;
+        //Transform fl oz in l
+        recommendedIntake = (recommendedIntake * 29.6) / 1000;
 
-        setRecommendedIntake(Math.round(recommendedIntake * 10) / 20);
+        setRecommendedIntake(Math.round(recommendedIntake * 10) / 10);
     };
 
     async function updateUserData() {
-        await createUserWithEmailAndPassword(auth, email, password);
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            console.error(error)
+        }
         await updateDoc(docRef, {
             "age": age,
-            "drinkingWater": drinkingWater,
+            "drinkingWater": drinkingWater === 0 ? recommendedIntake : drinkingWater,
             "mlConsumed": 0,
+            "wakingTime": wakingTime,
+            "sleepingTime": sleepingTime
         })
-<<<<<<< dev
         navigation.navigate('Home', {screen: 'DrinkTracker'})
-=======
-        await addDoc(docRef,{
-            "wakingTime":wakingTime,
-            "sleepingTime":sleepingTime
-        })
-
-        navigation.navigate('Home')
->>>>>>> added to db
-
     }
 
     function calcWakingTime(time) {
-        setWakingTime(time.toString);
+        setWakingTime(time);
+        setOpenTimePicker1(false)
     }
 
     function calcSleepingTime(time) {
-        setSleepingTime(time.toString);
+        setSleepingTime(time);
+        setOpenTimePicker2(false)
     }
 
     return (
         <Background>
             <BackButton goBack={navigation.goBack}/>
-            <Paragraph>Your age: {age} years</Paragraph>
-            <Paragraph>Your weight: {weight} kg</Paragraph>
-            <Paragraph>Recommended Water Intake: {recommendedIntake} L</Paragraph>
-            <Paragraph>How much water do you want to drink in a day?</Paragraph>
-            <TextInput
-                label="Water that drink in a day"
-                returnKeyType="next"
+            <Text style={styles.text}>Your age: {age} years</Text>
+            <Text style={styles.text}>Your weight: {weight} kg</Text>
+            <Text style={styles.text}>Recommended Water Intake: {recommendedIntake} L</Text>
+            {!isNoPress && <Text style={styles.text}>Do you want to drink more/less water?</Text>}
+            {!isNoPress && <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 5
+            }}>
+                <Button mode='outlined' onPress={() => {
+                    setChangeWaterIntake(true)
+                    setIsNoPress(true)
+                }}>
+                    Yes
+                </Button>
+                <Button mode='outlined' onPress={() => setIsNoPress(true)}>
+                    No
+                </Button>
+            </View>}
+            {changeWaterIntake && <TextInput
+                label="How much do you want to drink"
+                returnKeyType="done"
                 value={drinkingWater}
                 onChangeText={(text) => setDrinkingWater(text)}
                 keyboardType="number-pad"
-            />
-           {/* <Paragraph>Do you want to drink more or less water?</Paragraph>*/}
-           {/* <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                <BaseButton onPress={() => setMoreOrLess('less')}>
-                    <Image source={require('../../assets/less.jpg')} style={styles.image}/>
-                </BaseButton>
-                <BaseButton onPress={() => setMoreOrLess('more')}>
-                    <Image source={require('../../assets/greater.jpg')} style={styles.image}/>
-                </BaseButton>
+            />}
+            <View>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                    <Text style={styles.text}>When do you start your day?</Text>
+                    <Text style={{
+                        margin: 5,
+                        fontWeight: 'bold',
+                        fontSize: 15,
+                        color: theme.colors.primary
+                    }}>{wakingTime}</Text>
+                </View>
+                <TouchableOpacity onPress={() => setOpenTimePicker1(true)}>
+                    <Text style={styles.link}>Select time</Text>
+                </TouchableOpacity>
+                {openTimePicker1 && <DatePicker mode='time' minuteInterval={5} onTimeChange={calcWakingTime}/>}
             </View>
 
             <View>
-                <Paragraph>When do you start your day?</Paragraph>
-                <TimeInput onTimeChange={calcWakingTime}></TimeInput>
-            </View>
-
-            <View>
-                <Paragraph>When do you go to sleep?</Paragraph>
-                <TimeInput onTimeChange={calcSleepingTime}></TimeInput>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                    <Text style={styles.text}>When do you go to sleep?</Text>
+                    <Text style={{
+                        margin: 5,
+                        fontWeight: 'bold',
+                        fontSize: 15,
+                        color: theme.colors.primary
+                    }}>{sleepingTime}</Text>
+                </View>
+                <TouchableOpacity onPress={() => setOpenTimePicker2(true)}>
+                    <Text style={styles.link}>Select time</Text>
+                </TouchableOpacity>
+                {openTimePicker2 && <DatePicker mode='time' minuteInterval={5} onTimeChange={calcSleepingTime}/>}
             </View>
             <Button
-                title={''}
                 mode="contained"
                 style={{marginTop: 24}}
                 onPress={updateUserData}
             >
                 Register
             </Button>
-
         </Background>
     );
 }
@@ -125,16 +155,16 @@ function RegisterStep3({navigation, route}) {
 export default RegisterStep3;
 
 const styles = StyleSheet.create({
-    image: {
-        width: 60,
-        height: 60,
-        margin: 20,
+    link: {
+        fontWeight: 'bold',
+        color: theme.colors.primary,
+        margin: 5,
     },
-    sliderContainer: {
-        flex: 1,
-        marginLeft: 10,
-        marginRight: 10,
-        alignItems: 'stretch',
-        justifyContent: 'center',
+    text: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        lineHeight: 21,
+        textAlign: 'left',
+        margin: 5,
     }
 })

@@ -6,10 +6,7 @@ import Header from '../components/Header'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import {theme} from '../components/theme'
-import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
-import app from "../config/firebase";
 import {AntDesign} from "@expo/vector-icons";
-import Paragraph from "../components/Paragraph";
 
 
 function RegisterStep1({navigation}) {
@@ -88,7 +85,7 @@ function RegisterStep1({navigation}) {
                 secureTextEntry
             />
             <View style={styles.row}>
-                <Paragraph>Already have an account?</Paragraph>
+                <Text>Already have an account?</Text>
                 <TouchableOpacity onPress={() => navigation.replace('Login')}>
                     <Text style={styles.link}>Login</Text>
                 </TouchableOpacity>
@@ -106,11 +103,13 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent:'center',
+        marginTop: 50,
     },
     link: {
         fontWeight: 'bold',
         color: theme.colors.primary,
+        marginLeft: 5,
     },
     arrow: {
         alignSelf: 'flex-end',

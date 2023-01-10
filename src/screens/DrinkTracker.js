@@ -70,7 +70,8 @@ const DrinkTracker = () => {
                     placeholder="Enter milliliters consumed"
                     value={inputValue}
                     onChangeText={setInputValue}
-                    keyboardType="numbers-and-punctuation"
+                    keyboardType="number-pad"
+                    returnKeyType="done"
                 />
                 <Button
                     mode="outlined"
