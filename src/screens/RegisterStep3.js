@@ -6,7 +6,7 @@ import Paragraph from "../components/Paragraph";
 import Button from "../components/Button";
 import {Image, StyleSheet, View} from "react-native";
 import {BaseButton} from "react-native-gesture-handler";
-import {getFirestore, updateDoc} from "firebase/firestore";
+import {addDoc, collection, getFirestore, updateDoc} from "firebase/firestore";
 import app from "../config/firebase";
 import moment from "moment";
 import TimeInput from "@tighten/react-native-time-input";
@@ -53,6 +53,11 @@ function RegisterStep3({navigation, route}) {
             "drinkingWater": drinkingWater,
             "moreOrLess": moreOrLess,
         })
+        await addDoc(docRef,{
+            "wakingTime":wakingTime,
+            "sleepingTime":sleepingTime
+        })
+
         navigation.navigate('Home')
 
     }
