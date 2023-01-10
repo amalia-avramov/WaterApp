@@ -9,6 +9,7 @@ import {BaseButton} from "react-native-gesture-handler";
 import {getFirestore, updateDoc} from "firebase/firestore";
 import app from "../config/firebase";
 import moment from "moment";
+import TimeInput from "@tighten/react-native-time-input";
 import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
 
 const db = getFirestore(app);
@@ -19,6 +20,8 @@ function RegisterStep3({navigation, route}) {
     const {dateOfBirth, weight, email, password,docRef} = route.params;
     const [drinkingWater, setDrinkingWater] = useState(0);
     const [recommendedIntake, setRecommendedIntake] = useState(0);
+    const [wakingTime,setWakingTime] = useState("");
+    const [sleepingTime,setSleepingTime] = useState("");
 
     const age = moment().diff(dateOfBirth, 'years');
 
@@ -56,6 +59,14 @@ function RegisterStep3({navigation, route}) {
 
     }
 
+    function calcWakingTime(time) {
+        setWakingTime(time.toString);
+    }
+
+    function calcSleepingTime(time) {
+        setSleepingTime(time.toString);
+    }
+
     return (
         <Background>
             <BackButton goBack={navigation.goBack}/>
@@ -78,7 +89,17 @@ function RegisterStep3({navigation, route}) {
                 <BaseButton onPress={() => setMoreOrLess('more')}>
                     <Image source={require('../../assets/greater.jpg')} style={styles.image}/>
                 </BaseButton>
-            </View>*/}
+            </View>
+
+            <View>
+                <Paragraph>When do you start your day?</Paragraph>
+                <TimeInput onTimeChange={calcWakingTime}></TimeInput>
+            </View>
+
+            <View>
+                <Paragraph>When do you go to sleep?</Paragraph>
+                <TimeInput onTimeChange={calcSleepingTime}></TimeInput>
+            </View>
             <Button
                 title={''}
                 mode="contained"
