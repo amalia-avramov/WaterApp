@@ -34,7 +34,6 @@ const DrinkTracker = () => {
     const updateMlConsumed = async () => {
         setMlConsumed(Number(inputValue));
         const docRef = doc(db, "users", currentUser.id);
-
         setInputValue('');
         let date = new Date().getDate(); //To get the Current Date
         let month = new Date().getMonth() + 1; //To get the Current Month
@@ -54,7 +53,6 @@ const DrinkTracker = () => {
             })
         })
     }
-
     return (
         <Background>
             <View style={styles.container}>

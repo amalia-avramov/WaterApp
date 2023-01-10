@@ -14,7 +14,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
     const {user} = useAuth();
-    console.log(user)
     return (
         <Provider theme={theme}>
             {user ?

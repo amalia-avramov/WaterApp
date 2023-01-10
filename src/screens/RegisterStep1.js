@@ -58,8 +58,8 @@ function RegisterStep1({navigation}) {
                 label="Email"
                 returnKeyType="next"
                 value={email.value}
-                onChangeText={(text) => setEmail({value: text, error: ''})}
-                error={!!email.error}
+                    onChangeText={(text) => setEmail({value: text, error: ''})}
+                    error={!!email.error}
                 errorText={email.error}
                 autoCapitalize="none"
                 autoCompleteType="email"
