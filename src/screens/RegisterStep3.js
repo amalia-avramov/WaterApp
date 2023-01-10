@@ -11,6 +11,7 @@ import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
 import DatePicker from "react-native-modern-datepicker";
 import {Text} from "react-native-paper";
 import {theme} from "../components/theme";
+import {AntDesign} from "@expo/vector-icons";
 
 const auth = getAuth(app);
 
@@ -93,15 +94,13 @@ function RegisterStep3({navigation, route}) {
                 justifyContent: 'center',
                 margin: 5
             }}>
-                <Button mode='outlined' onPress={() => {
+                <AntDesign name="checkcircleo" style={{marginRight: 15}} size={48}
+                           onPress={() => {
                     setChangeWaterIntake(true)
                     setIsNoPress(true)
-                }}>
-                    Yes
-                </Button>
-                <Button mode='outlined' onPress={() => setIsNoPress(true)}>
-                    No
-                </Button>
+                }}/>
+                <AntDesign name='closecircleo' style={{marginLeft: 15}} size={48}
+                           onPress={() => setIsNoPress(true)}/>
             </View>}
             {changeWaterIntake && <TextInput
                 label="How much do you want to drink"
@@ -113,12 +112,7 @@ function RegisterStep3({navigation, route}) {
             <View>
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                     <Text style={styles.text}>When do you start your day?</Text>
-                    <Text style={{
-                        margin: 5,
-                        fontWeight: 'bold',
-                        fontSize: 15,
-                        color: theme.colors.primary
-                    }}>{wakingTime}</Text>
+                    <Text style={styles.values}>{wakingTime}</Text>
                 </View>
                 <TouchableOpacity onPress={() => setOpenTimePicker1(true)}>
                     <Text style={styles.link}>Select time</Text>
@@ -129,12 +123,7 @@ function RegisterStep3({navigation, route}) {
             <View>
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                     <Text style={styles.text}>When do you go to sleep?</Text>
-                    <Text style={{
-                        margin: 5,
-                        fontWeight: 'bold',
-                        fontSize: 15,
-                        color: theme.colors.primary
-                    }}>{sleepingTime}</Text>
+                    <Text style={styles.values}>{sleepingTime}</Text>
                 </View>
                 <TouchableOpacity onPress={() => setOpenTimePicker2(true)}>
                     <Text style={styles.link}>Select time</Text>
@@ -158,13 +147,21 @@ const styles = StyleSheet.create({
     link: {
         fontWeight: 'bold',
         color: theme.colors.primary,
-        margin: 5,
+        margin: 10,
     },
     text: {
         fontSize: 15,
         fontWeight: 'bold',
         lineHeight: 21,
         textAlign: 'left',
-        margin: 5,
+        margin: 10,
+    },
+    values:{
+        fontSize: 15,
+        fontWeight: 'bold',
+        lineHeight: 21,
+        textAlign: 'left',
+        margin: 10,
+        color: theme.colors.primary
     }
 })
