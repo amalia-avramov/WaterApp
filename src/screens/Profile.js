@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     mainCardView: {
-        height: 450,
+        height: 400,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff',

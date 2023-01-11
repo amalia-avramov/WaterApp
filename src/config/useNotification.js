@@ -12,7 +12,7 @@ export async function schedulePushNotification() {
             data: {data: 'goes here'},
         },
         trigger: {
-            seconds: 60,
+            seconds: 120,
             repeats: true
         },
     });
