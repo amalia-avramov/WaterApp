@@ -100,7 +100,7 @@ function RegisterStep2({navigation, route}) {
                 errorText={weight.error}
                 keyboardType="number-pad"
             />
-            <Text style={styles.text}>{'Date of birth'}</Text>
+            <Text style={styles.text}>{selectedDate}</Text>
 
             <Button title="Select your birth date" onPress={() => setOpen(true)}/>
             {open && <DatePicker
