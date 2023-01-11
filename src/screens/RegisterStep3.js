@@ -25,7 +25,7 @@ function RegisterStep3({navigation, route}) {
     const [openTimePicker1, setOpenTimePicker1] = useState(false)
     const [openTimePicker2, setOpenTimePicker2] = useState(false)
     const [changeWaterIntake, setChangeWaterIntake] = useState(false);
-    const [isNoPress, setIsNoPress] = useState(false)  
+    const [isNoPress, setIsNoPress] = useState(false)
 
     const age = moment().diff(dateOfBirth, 'years');
 
@@ -69,7 +69,7 @@ function RegisterStep3({navigation, route}) {
         })
         navigation.navigate('Home', {screen: 'DrinkTracker'})
     }
-    
+
     function calcWakingTime(time) {
         setWakingTime(time);
         setOpenTimePicker1(false)
@@ -96,9 +96,9 @@ function RegisterStep3({navigation, route}) {
             }}>
                 <AntDesign name="checkcircleo" style={{marginRight: 15}} size={48}
                            onPress={() => {
-                    setChangeWaterIntake(true)
-                    setIsNoPress(true)
-                }}/>
+                               setChangeWaterIntake(true)
+                               setIsNoPress(true)
+                           }}/>
                 <AntDesign name='closecircleo' style={{marginLeft: 15}} size={48}
                            onPress={() => setIsNoPress(true)}/>
             </View>}
@@ -129,16 +129,6 @@ function RegisterStep3({navigation, route}) {
                     <Text style={styles.link}>Select time</Text>
                 </TouchableOpacity>
                 {openTimePicker2 && <DatePicker mode='time' minuteInterval={5} onTimeChange={calcSleepingTime}/>}
-            </View>
-
-            <View>
-                <Paragraph>When do you start your day?</Paragraph>
-                <TimeInput onTimeChange={calcWakingTime}></TimeInput>
-            </View>
-
-            <View>
-                <Paragraph>When do you go to sleep?</Paragraph>
-                <TimeInput onTimeChange={calcSleepingTime}></TimeInput>
             </View>
             <Button
                 mode="contained"

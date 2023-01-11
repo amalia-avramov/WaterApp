@@ -19,6 +19,12 @@ function RegisterStep2({navigation, route}) {
     const [selectedDate, setSelectedDate] = useState('');
     const [open, setOpen] = useState(false);
 
+    const [color, setColor] = useState('black');
+    const [color2, setColor2] = useState('black');
+
+    const [pressed, setPressed] = useState(false);
+    const [pressed2, setPressed2] = useState(false);
+
     async function writeToDataBase() {
        try {
             const newDoc = await addDoc(collection(db, 'users'), {
@@ -44,6 +50,21 @@ function RegisterStep2({navigation, route}) {
        }
     }
 
+    function onButtonPressed(numb) {
+        if (numb === 1) {
+            setPressed(true);
+            setPressed2(false);
+            setColor('pink');
+            setColor2('black');}
+        else if(numb === 0){
+            setPressed(false);
+            setPressed2(true);
+            setColor('black');
+            setColor2('blue');
+        }
+    }
+
+
     return (
         <Background>
             <BackButton goBack={navigation.goBack}/>
@@ -65,9 +86,9 @@ function RegisterStep2({navigation, route}) {
             />
             <Text style={styles.text}>Gender</Text>
             <View style={styles.genderContainer}>
-                <Fontisto name="female" size={48} color="black" onPress={() => setGender("female")}
+                <Fontisto name="female" size={48} color={color} onPress={() => {setGender("female"); setPressed(true);onButtonPressed(1)}}
                           style={{marginRight: 20}}/>
-                <Fontisto name="male" size={48} color="black" onPress={() => setGender("male")}
+                <Fontisto name="male" size={48} color={color2} onPress={() => {setGender("male"); setPressed2(true);onButtonPressed(0)}}
                           style={{marginLeft: 20}}/>
             </View>
             <TextInput
@@ -79,10 +100,8 @@ function RegisterStep2({navigation, route}) {
                 errorText={weight.error}
                 keyboardType="number-pad"
             />
-            <TextInput
-                label={'Date of birth'}
-                value={selectedDate}
-            />
+            <Text style={styles.text}>{'Date of birth'}</Text>
+
             <Button title="Select your birth date" onPress={() => setOpen(true)}/>
             {open && <DatePicker
                 mode={'calendar'}

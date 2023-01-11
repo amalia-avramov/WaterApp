@@ -1,13 +1,16 @@
 import React from 'react'
-import { TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { TouchableOpacity,StyleSheet } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
+import {AntDesign} from "@expo/vector-icons";
 
 export default function BackButton({ goBack }) {
   return (
     <TouchableOpacity onPress={goBack} style={styles.container}>
-      <Image
+      <AntDesign
+          size={24}
+          color="black"
         style={styles.image}
-        source={require('../../assets/arrow_back.png')}
+        name="left"
       />
     </TouchableOpacity>
   )
@@ -17,10 +20,14 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 20 + getStatusBarHeight(),
-    left: 4,
+    left: 10,
+    width: 60,
+    height: 60,
+    flex:1,
+    justifyContent: "center",
+    alignContent: "center"
   },
   image: {
-    width: 24,
-    height: 24,
+    alignSelf:"center"
   },
 })
