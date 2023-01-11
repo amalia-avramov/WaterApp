@@ -6,12 +6,8 @@ import Header from '../components/Header'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import {theme} from '../components/theme'
-import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
-import app from "../config/firebase";
 import {AntDesign} from "@expo/vector-icons";
-import Paragraph from "../components/Paragraph";
 
-const auth = getAuth(app);
 
 function RegisterStep1({navigation}) {
     const [email, setEmail] = useState({value: '', error: ''})
@@ -47,8 +43,7 @@ function RegisterStep1({navigation}) {
             return
         }
         try {
-            await createUserWithEmailAndPassword(auth, email.value, password.value);
-            navigation.navigate('Register', {screen: 'RegisterStep2', params: {email: email.value}})
+            navigation.navigate('Register', {screen: 'RegisterStep2', params: {email: email.value, password: password.value}})
         } catch (error) {
             console.error(error)
         }
@@ -63,8 +58,8 @@ function RegisterStep1({navigation}) {
                 label="Email"
                 returnKeyType="next"
                 value={email.value}
-                onChangeText={(text) => setEmail({value: text, error: ''})}
-                error={!!email.error}
+                    onChangeText={(text) => setEmail({value: text, error: ''})}
+                    error={!!email.error}
                 errorText={email.error}
                 autoCapitalize="none"
                 autoCompleteType="email"
@@ -90,7 +85,7 @@ function RegisterStep1({navigation}) {
                 secureTextEntry
             />
             <View style={styles.row}>
-                <Paragraph>Already have an account?</Paragraph>
+                <Text>Already have an account?</Text>
                 <TouchableOpacity onPress={() => navigation.replace('Login')}>
                     <Text style={styles.link}>Login</Text>
                 </TouchableOpacity>
@@ -107,15 +102,14 @@ export default RegisterStep1;
 const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
-        marginTop: 80,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent:'center',
+        marginTop: 50,
     },
     link: {
-        marginTop: -4,
-        marginLeft: 8,
         fontWeight: 'bold',
         color: theme.colors.primary,
+        marginLeft: 5,
     },
     arrow: {
         alignSelf: 'flex-end',

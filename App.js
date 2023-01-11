@@ -1,5 +1,3 @@
-// noinspection UnnecessaryLocalVariableJS
-
 import {createStackNavigator} from "@react-navigation/stack";
 import Login from "./src/screens/Login";
 import Register from "./src/screens/Register";
@@ -16,7 +14,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
     const {user} = useAuth();
-    console.log(user)
     return (
         <Provider theme={theme}>
             {user ?
@@ -27,7 +24,7 @@ export default function App() {
                             headerShown: false,
                         }}
                     >
-                        <Stack.Screen name={'Home'} component={Home}/>
+                        <Stack.Screen name="Home" component={Home}/>
                     </Stack.Navigator>
                 </NavigationContainer>)
                 : (<NavigationContainer>
