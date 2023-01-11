@@ -67,7 +67,8 @@ function RegisterStep3({navigation, route}) {
             "wakingTime": wakingTime,
             "sleepingTime": sleepingTime
         })
-        navigation.navigate('Home', {screen: 'DrinkTracker'})
+        navigation.navigate('Login')
+
     }
 
     function calcWakingTime(time) {
@@ -119,7 +120,6 @@ function RegisterStep3({navigation, route}) {
                 </TouchableOpacity>
                 {openTimePicker1 && <DatePicker mode='time' minuteInterval={5} onTimeChange={calcWakingTime}/>}
             </View>
-
             <View>
                 <View style={{display: 'flex', flexDirection: 'row'}}>
                     <Text style={styles.text}>When do you go to sleep?</Text>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         margin: 10,
     },
-    values:{
+    values: {
         fontSize: 15,
         fontWeight: 'bold',
         lineHeight: 21,

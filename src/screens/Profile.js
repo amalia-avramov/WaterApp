@@ -8,6 +8,7 @@ import {collection, doc, getDocs, getFirestore, updateDoc} from "firebase/firest
 import {theme} from "../components/theme";
 import TextInput from "../components/TextInput";
 import Button from "../components/Button";
+import {cancelAllScheduledNotificationsAsync} from "expo-notifications";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -57,8 +58,9 @@ export function Profile({navigation}) {
             <View style={{backgroundColor: '#6baafd', height: 100}}>
                 <View style={{margin: 10, alignItems: 'flex-end'}}>
                     <AntDesign name="logout" size={32} color="black"
-                               onPress={() => {
+                               onPress={async () => {
                                    signOut(auth).then(r => console.log(r));
+                                   await cancelAllScheduledNotificationsAsync();
                                    setTimeout(() => {
                                        navigation.navigate('Start')
                                    }, 1000);
@@ -97,7 +99,7 @@ export function Profile({navigation}) {
                         style={styles.text}>
                         Gender: {gender}
                     </Text>
-                    <View style={{flexDirection:'row'}}>
+                    <View>
                         <Text style={styles.text}>
                             Weight:
                         </Text>
@@ -111,7 +113,7 @@ export function Profile({navigation}) {
                                 style={{width: 100}}
                             />}
                     </View>
-                    <View style={{flexDirection:'row'}}>
+                    <View>
                         <Text
                             style={styles.text}>
                             Goal:
@@ -162,16 +164,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     mainCardView: {
-        height: 450,
+        height: 400,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff',
         borderRadius: 15,
         shadowColor: "#eaeaea",
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 1,
-        shadowRadius: 8,
-        elevation: 8,
         marginTop: 6,
         marginBottom: 20,
         marginLeft: 16,

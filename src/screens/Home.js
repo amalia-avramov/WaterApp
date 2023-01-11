@@ -1,6 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {EvilIcons, FontAwesome, Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {EvilIcons, FontAwesome, MaterialIcons} from "@expo/vector-icons";
 import DrinkTracker from "./DrinkTracker";
 import {Historical} from "./Historical";
 import {Profile} from "./Profile";
@@ -13,13 +13,13 @@ export default function Home() {
         <Tab.Navigator
             initialRouteName='DrinkTracker'
             screenOptions={({route}) => ({
-                tabBarIcon: ({ focused, color, size }) => {
+                tabBarIcon: ({focused, color, size}) => {
                     if (route.name === 'DrinkTracker') {
-                        return <MaterialIcons name="local-drink" size={size} color={color} />
+                        return <MaterialIcons name="local-drink" size={size} color={color}/>
                     } else if (route.name === 'Historical') {
-                        return <FontAwesome name="history" size={size} color={color} />
-                    } else if(route.name === 'Profile'){
-                        return <EvilIcons name='user' size={size} color={color} />
+                        return <FontAwesome name="history" size={size} color={color}/>
+                    } else if (route.name === 'Profile') {
+                        return <EvilIcons name='user' size={size} color={color}/>
                     }
 
                 },

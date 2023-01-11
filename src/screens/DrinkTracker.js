@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
 import TextInput from "../components/TextInput";
 import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc} from 'firebase/firestore'
 import app from "../config/firebase";
 import {useAuth} from "../config/useAuth";
-import Background from "../components/Background";
 import Button from "../components/Button";
 import Paragraph from "../components/Paragraph";
+import {schedulePushNotification} from "../config/useNotification";
+
 
 const db = getFirestore(app);
 
@@ -14,7 +15,7 @@ const DrinkTracker = () => {
     const {user} = useAuth();
     const [mlConsumed, setMlConsumed] = useState(0);
     const [inputValue, setInputValue] = useState('');
-    const [currentUser, setCurrentUser] = useState({})
+    const [currentUser, setCurrentUser] = useState({});
 
     const fetchPost = async () => {
         await getDocs(collection(db, "users"))
@@ -24,11 +25,10 @@ const DrinkTracker = () => {
                 const newCurrentUser = newData.find((u) => u.email === user.email)
                 setCurrentUser(newCurrentUser);
             })
-
     }
 
     useEffect(() => {
-        fetchPost().catch((error) => console.log(error))
+        fetchPost().then(r => console.log('Fetch user Data'));
     }, [user, mlConsumed, setMlConsumed])
 
     const updateMlConsumed = async () => {
@@ -54,32 +54,32 @@ const DrinkTracker = () => {
         })
     }
     return (
-        <Background>
-            <View style={styles.container}>
-                <Text style={styles.text}>Milliliters consumed: {currentUser.mlConsumed}</Text>
-                <View style={styles.progressBarContainer}>
-                    <View
-                        style={[styles.fill, {height: `${(currentUser.mlConsumed / (currentUser.drinkingWater * 1000)) * 100}%`}]}>
-                        <Text style={styles.progressText}>{currentUser.mlConsumed}</Text>
-                    </View>
-                    <View style={styles.empty}/>
+        <KeyboardAvoidingView style={styles.container}>
+            <Text style={styles.text}>Milliliters consumed: {currentUser.mlConsumed}</Text>
+            <View style={styles.progressBarContainer}>
+                <View
+                    style={[styles.fill, {height: `${(currentUser.mlConsumed / (currentUser.drinkingWater * 1000)) * 100}%`}]}>
+                    <Text style={styles.progressText}>{currentUser.mlConsumed}</Text>
                 </View>
-                <TextInput
-                    placeholder="Enter milliliters consumed"
-                    value={inputValue}
-                    onChangeText={setInputValue}
-                    keyboardType="number-pad"
-                    returnKeyType="done"
-                />
-                <Button
-                    mode="outlined"
-                    onPress={updateMlConsumed}
-                >Submit</Button>
-                {(currentUser.mlConsumed >= currentUser.drinkingWater * 1000) &&
-                    <Paragraph>Your goal was reached!</Paragraph>}
-
+                <View style={styles.empty}/>
             </View>
-        </Background>
+            <TextInput
+                placeholder="Enter milliliters consumed"
+                value={inputValue}
+                onChangeText={setInputValue}
+                keyboardType="number-pad"
+                returnKeyType="done"
+                style={{marginHorizontal: 50}}
+            />
+            <Button
+                mode="outlined"
+                onPress={updateMlConsumed}
+            >Submit</Button>
+            {(currentUser.mlConsumed >= currentUser.drinkingWater * 1000) &&
+                <Paragraph>Your goal was reached!</Paragraph>}
+
+        </KeyboardAvoidingView>
+
 
     );
 }
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     },
     progressBarContainer: {
         width: 80,
-        height: windowHeight/4,
+        height: windowHeight / 4,
         borderRadius: 50,
         borderWidth: 2,
         borderColor: '#ddd',

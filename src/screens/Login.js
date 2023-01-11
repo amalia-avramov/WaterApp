@@ -8,6 +8,7 @@ import Button from "../components/Button";
 import Header from "../components/Header";
 import TextInput from "../components/TextInput";
 import app from "../config/firebase";
+import {schedulePushNotification} from "../config/useNotification";
 
 
 const auth = getAuth(app);
@@ -43,6 +44,8 @@ function Login({navigation}) {
         } catch (error) {
             setEmail(email.error)
         }
+
+        await schedulePushNotification();
     }
 
     return (
