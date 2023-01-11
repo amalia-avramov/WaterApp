@@ -99,7 +99,7 @@ export function Profile({navigation}) {
                         style={styles.text}>
                         Gender: {gender}
                     </Text>
-                    <View style={{flexDirection:'row'}}>
+                    <View>
                         <Text style={styles.text}>
                             Weight:
                         </Text>
@@ -113,7 +113,7 @@ export function Profile({navigation}) {
                                 style={{width: 100}}
                             />}
                     </View>
-                    <View style={{flexDirection:'row'}}>
+                    <View>
                         <Text
                             style={styles.text}>
                             Goal:
@@ -170,10 +170,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 15,
         shadowColor: "#eaeaea",
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 1,
-        shadowRadius: 8,
-        elevation: 8,
         marginTop: 6,
         marginBottom: 20,
         marginLeft: 16,
