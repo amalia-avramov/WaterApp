@@ -1,7 +1,7 @@
 import {getAuth, signOut} from "firebase/auth";
 import app from "../config/firebase";
 import {AntDesign} from "@expo/vector-icons";
-import {StyleSheet, Text, View} from "react-native";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
 import {useAuth} from "../config/useAuth";
 import {useEffect, useState} from "react";
 import {collection, doc, getDocs, getFirestore, updateDoc} from "firebase/firestore";
@@ -53,7 +53,7 @@ export function Profile({navigation}) {
         setIsEditing(false);
     }
     return (
-        <View>
+        <ScrollView>
             <View style={{backgroundColor: '#6baafd', height: 100}}>
                 <View style={{margin: 10, alignItems: 'flex-end'}}>
                     <AntDesign name="logout" size={32} color="black"
@@ -144,7 +144,7 @@ export function Profile({navigation}) {
                     <AntDesign name='edit' size={24} style={{margin: 10}} onPress={() => setIsEditing(true)}/>
                 </View>
             }
-        </View>
+        </ScrollView>
     )
 }
 
