@@ -86,11 +86,11 @@ function RegisterStep1({navigation}) {
             />
             <View style={styles.row}>
                 <Text>Already have an account?</Text>
-                <TouchableOpacity onPress={() => navigation.replace('Login')}>
+                <TouchableOpacity  onPress={() => navigation.replace('Login')}>
                     <Text style={styles.link}>Login</Text>
                 </TouchableOpacity>
             </View>
-            <AntDesign name="arrowright" size={24} color="black" style={styles.arrow}
+            <AntDesign name="right" size={24} color="black" style={styles.arrow}
                        onPress={onSignUpPressed}
             />
         </Background>

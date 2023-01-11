@@ -7,8 +7,8 @@ export default function BackButton({ goBack }) {
   return (
     <TouchableOpacity onPress={goBack} style={styles.container}>
       <AntDesign
-          size={32}
-          color="#979797"
+          size={24}
+          color="black"
         style={styles.image}
         name="left"
       />
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 20 + getStatusBarHeight(),
-    left: 20,
+    left: 10,
     width: 60,
     height: 60,
     flex:1,
