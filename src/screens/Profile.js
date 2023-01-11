@@ -8,6 +8,7 @@ import {collection, doc, getDocs, getFirestore, updateDoc} from "firebase/firest
 import {theme} from "../components/theme";
 import TextInput from "../components/TextInput";
 import Button from "../components/Button";
+import {cancelAllScheduledNotificationsAsync} from "expo-notifications";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -57,8 +58,9 @@ export function Profile({navigation}) {
             <View style={{backgroundColor: '#6baafd', height: 100}}>
                 <View style={{margin: 10, alignItems: 'flex-end'}}>
                     <AntDesign name="logout" size={32} color="black"
-                               onPress={() => {
+                               onPress={async () => {
                                    signOut(auth).then(r => console.log(r));
+                                   await cancelAllScheduledNotificationsAsync();
                                    setTimeout(() => {
                                        navigation.navigate('Start')
                                    }, 1000);
